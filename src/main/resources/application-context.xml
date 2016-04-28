@@ -1,0 +1,29 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<beans xmlns="http://www.springframework.org/schema/beans"
+       xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+       xsi:schemaLocation="http://www.springframework.org/schema/beans http://www.springframework.org/schema/beans/spring-beans.xsd
+       ">
+
+       <bean id="calculatorImpl" class="com.google.liliyaYalovchenko.CalculatorImpl"/>
+      <!-- <bean id="bootstrap" class="com.google.liliyaYalovchenko.Bootstrap">
+             <property name="calculatorFactory" ref="calculatorFactory"/>
+       </bean>-->
+       <bean id="calculatorFactory" class="com.google.liliyaYalovchenko.CalculatorFactory">
+              <lookup-method name="getCalculator" bean="calculatorImpl"/>
+       </bean>
+
+      <bean id="executorInterceptor" class="com.google.liliyaYalovchenko.CalculatorInterceptor"/>
+      <bean class="org.springframework.aop.framework.autoproxy.BeanNameAutoProxyCreator">
+              <property name="beanNames">
+                     <list>
+                            <value>calculatorImpl</value>
+
+                     </list>
+              </property>
+              <property name="interceptorNames">
+                     <list>
+                            <idref bean="executorInterceptor"/>
+                     </list>
+              </property>
+       </bean>
+</beans>
